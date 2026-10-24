@@ -1,0 +1,75 @@
+@page
+@model web.net_project.Pages.CartModel
+@using web.net_project.Models
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<section class="cart-page">
+    <div class="container cart-layout">
+        <div class="page-header compact">
+            <span class="eyebrow">Your cart</span>
+            <h1>Ready for checkout.</h1>
+        </div>
+
+        @if (Model.Items.Count == 0)
+        {
+            <div class="empty-state">
+                <h3>Your cart is empty.</h3>
+                <p>Add a few cleaning essentials and come back here to review your order.</p>
+                <a class="btn btn-primary" asp-page="/Products/Index">Continue shopping</a>
+            </div>
+        }
+        else
+        {
+            <div class="cart-items">
+                @foreach (var item in Model.Items)
+                {
+                    <div class="cart-item">
+                        <div class="cart-image @item.ImageClass"></div>
+                        <div class="cart-details">
+                            <h3>@item.Name</h3>
+                            <p>@item.Category</p>
+                        </div>
+                        <div class="cart-quantity">
+                            <form method="post" asp-page-handler="UpdateQuantity">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <label>
+                                    Qty
+                                    <input type="number" name="quantity" value="@item.Quantity" min="1" />
+                                </label>
+                                <button type="submit">Update</button>
+                            </form>
+                        </div>
+                        <div class="cart-price">
+                            <strong>₹@((item.Price * item.Quantity).ToString("0.00"))</strong>
+                        </div>
+                        <div class="cart-actions">
+                            <form method="post" asp-page-handler="RemoveItem">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <button type="submit" class="btn-link">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <aside class="checkout-box">
+                <h3>Order summary</h3>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong>₹@Model.Subtotal.ToString("0.00")</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <strong>Free</strong>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <strong>₹@Model.Subtotal.ToString("0.00")</strong>
+                </div>
+                <a class="btn btn-primary btn-block" asp-page="/Checkout">Proceed to checkout</a>
+            </aside>
+        }
+    </div>
+</section>

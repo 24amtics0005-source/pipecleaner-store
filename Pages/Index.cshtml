@@ -1,0 +1,132 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<section class="hero-section">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <span class="eyebrow">Fresh shine. Fast clean.</span>
+            <h1>Powerful pipe cleaner essentials for every workspace.</h1>
+            <p>
+                Shop smart cleaning solutions designed to remove grime, refresh surfaces, and keep your home or business spotless with less effort. Built for Indian homes and daily cleaning needs.
+            </p>
+            <div class="hero-actions">
+                <a class="btn btn-primary btn-lg" asp-page="/Products/Index">Shop now</a>
+                <a class="btn btn-outline-secondary btn-lg" href="#why">Why choose us</a>
+            </div>
+            <div class="mini-stats">
+                <div>
+                    <strong>12k+</strong>
+                    <span>happy customers</span>
+                </div>
+                <div>
+                    <strong>4.9/5</strong>
+                    <span>average rating</span>
+                </div>
+                <div>
+                    <strong>48h</strong>
+                    <span>fast delivery</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual" aria-label="Pipe cleaner product display">
+            <div class="product-badge">Best seller</div>
+            <div class="cleaner-box">
+                <div class="cleaner-bottle">
+                    <div class="cap"></div>
+                    <div class="label">
+                        <span>PipeCleaner</span>
+                        <strong>Pro Max</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="floating-card card-one">
+                <span>Eco-safe</span>
+                <strong>98% biodegradable</strong>
+            </div>
+            <div class="floating-card card-two">
+                <span>New arrival</span>
+                <strong>Deep clean kit</strong>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="feature-strip">
+    <div class="container feature-row">
+        <div>
+            <strong>100% Safe</strong>
+            <span>Gentle on surfaces</span>
+        </div>
+        <div>
+            <strong>Fast Dry</strong>
+            <span>No streaks, no residue</span>
+        </div>
+        <div>
+            <strong>Eco Formula</strong>
+            <span>Low-foam & biodegradable</span>
+        </div>
+    </div>
+</section>
+
+<section class="products-section" id="products">
+    <div class="container">
+        <div class="section-heading">
+            <span class="eyebrow">Popular picks</span>
+            <h2>Shop the best pipe cleaner essentials</h2>
+        </div>
+
+        <div class="product-grid">
+            @foreach (var product in Model.FeaturedProducts)
+            {
+                <article class="product-card">
+                    <div class="product-image @product.ImageClass"></div>
+                    <div class="product-body">
+                        <span class="tag">@product.Tag</span>
+                        <h3>@product.Name</h3>
+                        <p>@product.Description</p>
+                        <div class="price-row">
+                            <strong>₹@product.Price.ToString("0.00")</strong>
+                            <form method="post" asp-page="/Cart" asp-page-handler="AddToCart">
+                                <input type="hidden" name="productId" value="@product.Id" />
+                                <button type="submit">Add to cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="why-us" id="why">
+    <div class="container why-grid">
+        <div class="why-copy">
+            <span class="eyebrow">Why homeowners choose us</span>
+            <h2>Better products for cleaner living.</h2>
+            <ul>
+                <li>Powerful cleaning performance without harsh damage</li>
+                <li>Made for daily routines, deep cleaning, and busy homes</li>
+                <li>Convenient bundles for kitchens, bathrooms, and offices</li>
+            </ul>
+        </div>
+
+        <div class="info-cards">
+            <div class="info-card">
+                <strong>1,200+</strong>
+                <span>Daily orders processed</span>
+            </div>
+            <div class="info-card">
+                <strong>7-day</strong>
+                <span>Freshness guarantee</span>
+            </div>
+            <div class="info-card">
+                <strong>24/7</strong>
+                <span>Customer support</span>
+            </div>
+        </div>
+    </div>
+</section>

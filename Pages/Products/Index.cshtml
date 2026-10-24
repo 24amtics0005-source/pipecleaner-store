@@ -1,0 +1,43 @@
+@page
+@using web.net_project.Models
+@model web.net_project.Pages.Products.IndexModel
+@{
+    ViewData["Title"] = "Shop";
+}
+
+<section class="shop-page">
+    <div class="container">
+        <div class="page-header">
+            <span class="eyebrow">Our products</span>
+            <h1>Everything you need for a cleaner home.</h1>
+        </div>
+
+        <div class="product-grid shop-grid">
+            @foreach (var product in Model.Products)
+            {
+                <article class="product-card">
+                    <div class="product-image @product.ImageClass"></div>
+                    <div class="product-body">
+                        <span class="tag">@product.Tag</span>
+                        <h3>@product.Name</h3>
+                        <p>@product.Description</p>
+                        <div class="rating-row">
+                            <span>@string.Concat(Enumerable.Repeat("★", product.Rating))</span>
+                            <small>@product.Category</small>
+                        </div>
+                        <div class="price-row">
+                            <strong>₹@product.Price.ToString("0.00")</strong>
+                            <div class="product-actions">
+                                <a class="btn-link detail-link" asp-page="/Products/Details" asp-route-id="@product.Id">View details</a>
+                                <form method="post" asp-page="/Cart" asp-page-handler="AddToCart">
+                                    <input type="hidden" name="productId" value="@product.Id" />
+                                    <button type="submit">Add to cart</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>

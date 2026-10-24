@@ -1,0 +1,117 @@
+@page
+@model web.net_project.Pages.Admin.ProductsModel
+@{
+    ViewData["Title"] = "Admin Products";
+}
+
+<section class="admin-page">
+    <div class="container admin-shell">
+        <div class="page-header compact">
+            <span class="eyebrow">Admin panel</span>
+            <h1>Manage products</h1>
+        </div>
+
+        <div class="admin-topbar">
+            <a class="btn btn-primary" asp-page="/Admin/Products" asp-page-handler="Create">Add new product</a>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+        {
+            <div class="alert alert-success">@Model.StatusMessage</div>
+        }
+
+        <div class="table-responsive">
+            <table class="table admin-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Featured</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.Products)
+                    {
+                        <tr>
+                            <td>@product.Name</td>
+                            <td>@product.Category</td>
+                            <td>₹@product.Price.ToString("0.00")</td>
+                            <td>@product.StockQuantity</td>
+                            <td>@(product.IsFeatured ? "Yes" : "No")</td>
+                            <td>
+                                <div class="table-actions">
+                                    <a class="btn btn-sm btn-outline-secondary" asp-page="/Admin/Products" asp-route-id="@product.Id" asp-page-handler="Edit">Edit</a>
+                                    <form method="post" asp-page-handler="Delete">
+                                        <input type="hidden" name="id" value="@product.Id" />
+                                        <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (Model.IsEditing)
+        {
+            <div class="admin-card">
+                <h3>@(Model.ProductToEdit is null ? "New product" : "Edit product")</h3>
+                <form method="post" asp-page-handler="Save">
+                    <input type="hidden" asp-for="ProductForm.Id" />
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="ProductForm.Name"></label>
+                            <input asp-for="ProductForm.Name" class="form-control" />
+                            <span asp-validation-for="ProductForm.Name" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ProductForm.Category"></label>
+                            <input asp-for="ProductForm.Category" class="form-control" />
+                            <span asp-validation-for="ProductForm.Category" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="ProductForm.Price"></label>
+                            <input asp-for="ProductForm.Price" class="form-control" />
+                            <span asp-validation-for="ProductForm.Price" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="ProductForm.StockQuantity"></label>
+                            <input asp-for="ProductForm.StockQuantity" class="form-control" />
+                            <span asp-validation-for="ProductForm.StockQuantity" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="ProductForm.Rating"></label>
+                            <input asp-for="ProductForm.Rating" class="form-control" />
+                            <span asp-validation-for="ProductForm.Rating" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="ProductForm.Tag"></label>
+                            <input asp-for="ProductForm.Tag" class="form-control" />
+                            <span asp-validation-for="ProductForm.Tag" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="ProductForm.Description"></label>
+                            <textarea asp-for="ProductForm.Description" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="ProductForm.Description" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input asp-for="ProductForm.IsFeatured" class="form-check-input" />
+                                <label asp-for="ProductForm.IsFeatured" class="form-check-label"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-actions">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a asp-page="/Admin/Products" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        }
+    </div>
+</section>

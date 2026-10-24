@@ -1,0 +1,56 @@
+@page "{id:int}"
+@model web.net_project.Pages.Products.ProductDetailModel
+@{
+    ViewData["Title"] = Model.Product is null ? "Product not found" : Model.Product.Name;
+}
+
+@if (Model.Product is null)
+{
+    <section class="product-detail-page">
+        <div class="container">
+            <div class="empty-state">
+                <h3>Product not found</h3>
+                <p>The item you’re looking for is no longer available.</p>
+                <a class="btn btn-primary" asp-page="/Products/Index">Back to shop</a>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="product-detail-page">
+        <div class="container">
+            <div class="detail-shell">
+                <div class="detail-image @Model.Product.ImageClass"></div>
+
+                <div class="detail-content">
+                    <span class="eyebrow">@Model.Product.Tag</span>
+                    <h1>@Model.Product.Name</h1>
+
+                    <div class="rating-row">
+                        <span>@string.Concat(Enumerable.Repeat("★", Model.Product.Rating))</span>
+                        <small>@Model.Product.Category</small>
+                    </div>
+
+                    <div class="detail-price">₹@Model.Product.Price.ToString("0.00")</div>
+
+                    <div class="detail-meta">
+                        <span>Free delivery</span>
+                        <span>Eco-safe</span>
+                        <span>Top rated</span>
+                    </div>
+
+                    <p>@Model.Product.Description</p>
+
+                    <div class="detail-actions">
+                        <form method="post" asp-page="/Cart" asp-page-handler="AddToCart">
+                            <input type="hidden" name="productId" value="@Model.Product.Id" />
+                            <button type="submit" class="btn btn-primary">Add to cart</button>
+                        </form>
+                        <a class="btn btn-outline-secondary" asp-page="/Products/Index">Continue shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}

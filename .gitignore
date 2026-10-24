@@ -1,0 +1,46 @@
+## ASP.NET Core .gitignore
+
+# Build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.swp
+
+# SQLite database files (regenerated at runtime via migrations)
+*.db
+*.db-shm
+*.db-wal
+
+# Secrets / sensitive config
+appsettings.Production.json
+secrets.json
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Large junk files (e.g. downloaded HTML pages)
+*.html
+
+# NuGet
+*.nupkg
+.nuget/
+
+# Publish output
+publish/

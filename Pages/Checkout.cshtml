@@ -1,0 +1,83 @@
+@page
+@model web.net_project.Pages.CheckoutModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<section class="checkout-page">
+    <div class="container checkout-layout">
+        <div class="checkout-form">
+            <span class="eyebrow">Checkout</span>
+            <h1>Complete your order</h1>
+
+            <form method="post">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Customer.FirstName">First name</label>
+                        <input asp-for="Customer.FirstName" class="form-control" placeholder="Jane" />
+                        <span asp-validation-for="Customer.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Customer.LastName">Last name</label>
+                        <input asp-for="Customer.LastName" class="form-control" placeholder="Smith" />
+                        <span asp-validation-for="Customer.LastName" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="Customer.Email">Email</label>
+                        <input asp-for="Customer.Email" type="email" class="form-control" placeholder="jane@example.com" />
+                        <span asp-validation-for="Customer.Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="Customer.Address">Address</label>
+                        <input asp-for="Customer.Address" class="form-control" placeholder="123 Main St" />
+                        <span asp-validation-for="Customer.Address" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Customer.City">City</label>
+                        <input asp-for="Customer.City" class="form-control" placeholder="Austin" />
+                        <span asp-validation-for="Customer.City" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Customer.PostalCode">ZIP</label>
+                        <input asp-for="Customer.PostalCode" class="form-control" placeholder="78701" />
+                        <span asp-validation-for="Customer.PostalCode" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label>Payment method</label>
+                        <div class="payment-options">
+                            @foreach (var method in new[] { "Cash on Delivery", "Net Banking", "Credit Card", "Debit Card", "UPI" })
+                            {
+                                <label class="payment-option">
+                                    <input type="radio" name="PaymentMethod" value="@method" checked="@(Model.PaymentMethod == method ? "checked" : null)" />
+                                    <span>@method</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-checkout">Place order</button>
+            </form>
+        </div>
+
+        <aside class="checkout-summary">
+            <h3>Summary</h3>
+            @foreach (var item in Model.Items)
+            {
+                <div class="summary-item">
+                    <span>@item.Name x @item.Quantity</span>
+                    <strong>₹@((item.Price * item.Quantity).ToString("0.00"))</strong>
+                </div>
+            }
+
+            <div class="summary-row total">
+                <span>Total</span>
+                <strong>₹@Model.Subtotal.ToString("0.00")</strong>
+            </div>
+        </aside>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

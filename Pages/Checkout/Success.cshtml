@@ -1,0 +1,23 @@
+@page
+@model web.net_project.Pages.Checkout.SuccessModel
+@{
+    ViewData["Title"] = "Order confirmed";
+}
+
+<section class="success-page">
+    <div class="container">
+        <div class="success-card">
+            <div class="success-icon">✓</div>
+            <span class="eyebrow">Order confirmed</span>
+            <h1>Thank you for your order!</h1>
+            <p>Your PipeCleaner Pro essentials are on the way and will be packed with care.</p>
+            <p class="success-payment">
+                Payment method: <strong>@(TempData["SelectedPaymentMethod"] ?? "Cash on Delivery")</strong>
+            </p>
+            <div class="success-actions">
+                <a class="btn btn-primary" asp-page="/Products/Index">Continue shopping</a>
+                <a class="btn btn-outline-secondary" asp-page="/Cart">View cart</a>
+            </div>
+        </div>
+    </div>
+</section>
